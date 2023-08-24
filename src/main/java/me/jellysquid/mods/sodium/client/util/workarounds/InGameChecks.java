@@ -17,7 +17,7 @@ public class InGameChecks {
     public static List<String> coreShaderResourcePacks = new ArrayList<>();
 
     public static void checkIfCoreShaderLoaded(Resource resource) {
-        if (!resource.getResourcePackName().equals("vanilla")) {
+        if (!resource.getResourcePackName().equals("vanilla") && !resource.getResourcePackName().equals("fabric")) {
             if (coreShaderResourcePacks.isEmpty())
                 showConsoleMessage(Text.translatable("sodium.console.core_shaders"));
             String resourcePackName = resource.getResourcePackName().substring(5);
