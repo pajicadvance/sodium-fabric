@@ -3,6 +3,7 @@ package me.jellysquid.mods.sodium.mixin.core;
 import it.unimi.dsi.fastutil.longs.LongArrayFIFOQueue;
 import me.jellysquid.mods.sodium.client.SodiumClientMod;
 import me.jellysquid.mods.sodium.client.gui.screen.ConfigCorruptedScreen;
+import me.jellysquid.mods.sodium.client.util.workarounds.InGameChecks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.RunArgs;
 import net.minecraft.util.profiler.Profiler;
@@ -12,6 +13,9 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.concurrent.CompletableFuture;
 
 @Mixin(MinecraftClient.class)
 public class MinecraftClientMixin {
@@ -70,5 +74,10 @@ public class MinecraftClientMixin {
         }
 
         this.fences.enqueue(fence);
+    }
+
+    @Inject(method = "reloadResources()Ljava/util/concurrent/CompletableFuture;", at = @At("HEAD"))
+    private void preResourceReload(CallbackInfoReturnable<CompletableFuture<Void>> cir) {
+        InGameChecks.clearCoreShaderResourcePackList();
     }
 }
