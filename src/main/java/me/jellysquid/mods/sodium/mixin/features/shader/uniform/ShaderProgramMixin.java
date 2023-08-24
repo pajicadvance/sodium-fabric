@@ -69,7 +69,7 @@ public class ShaderProgramMixin {
 
     @Inject(method = "loadShader", at = @At(value = "INVOKE", target = "Lnet/minecraft/resource/Resource;getInputStream()Ljava/io/InputStream;"), locals = LocalCapture.CAPTURE_FAILSOFT)
     private static void preLoadShader(ResourceFactory factory, ShaderStage.Type type, String name, CallbackInfoReturnable<ShaderStage> cir, ShaderStage shaderStage, String string, Resource resource) {
-        InGameChecks.checkIfCoreShaderLoaded(resource);
+        InGameChecks.checkIfCoreShaderLoaded(resource, name);
     }
 
 }
